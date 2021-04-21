@@ -1,0 +1,63 @@
+{% extends 'main/header.html' %}
+
+  {% block content %}
+
+  {% load static %}
+
+    <!--CTA-->
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 pb-4">
+          <h1 class="display-4 font-weight-bold">Apps Collection</h1>
+          <h5>Une collection des applications mobile avec des bannières publicitaires.</h5>
+          <a class="btn btn-primary mt-2" href="/allapps">Consulter toutes les Applications</a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <img class="img-fluid rounded" src="{% static 'img/accueil.jpg' %}" alt="volkswagen">
+        </div>
+      </div>
+    </div>
+
+    <!--Apps-->
+    <div class="container py-3">
+        <h2>Apps</h2>
+        <hr>
+        <br>
+        <div class="row">
+        {% if user.is_authenticated %}
+            {% for app in admin_apps %}
+            <div class="col-sm-12 col-md-6 col-lg-3 pb-4">
+                <div class="card h-100" style="border:none">
+	        	<img src="{{ app.app_image.url }}" class="card-img-top" alt="{{ app.app_name }}" style="width: auto; height: 250px; object-fit: scale-down;">
+	        	<div class="card-body">
+	          		<h5 class="card-title">{{ app.app_name }}</h5>
+	            	<p class="card-text text-muted" style="font-size:12px">{{ app.app_type }}</p>
+	            	<p class="card-text">{{ app.app_description }}</p>
+	            	<a href="#" class="btn btn-warning">Télécharger Maintenant</a>
+	        	</div>
+	      	</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            {% for app in random_apps %}
+            <div class="col-sm-12 col-md-6 col-lg-3 pb-4">
+                <div class="card h-100" style="border:none">
+	        	<img src="{{ app.app_image.url }}" class="card-img-top" alt="{{ app.app_name }}" style="width: auto; height: 250px; object-fit: scale-down;">
+	        	<div class="card-body">
+	          		<h5 class="card-title">{{ app.app_name }}</h5>
+	            	<p class="card-text text-muted" style="font-size:12px">{{ app.app_type }}</p>
+	            	<p class="card-text">{{ app.app_description }}</p>
+	            	<a href="#" class="btn btn-warning">Télécharger Maintenant</a>
+	        	</div>
+	      	</div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+        <div class="container text-right">
+          <a href="/allapps" class="btn btn-secondary">Voir Plus</a>
+        </div>
+    </div>
+
+
+    {% endblock %}

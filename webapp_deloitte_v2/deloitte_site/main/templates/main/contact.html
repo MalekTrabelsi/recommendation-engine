@@ -1,0 +1,28 @@
+{% extends 'main/header.html' %}
+
+  {% block content %}
+      {% load static %}
+    <div class="container py-5">
+      <h1 class="display-4 font-weight-bold">Projet Dominante</h1>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 pb-4">
+          <h5>Projet de conception d'un site web qui utilise un moteur de recommandation d'applications mobiles à télécharger.</h5>
+            <p>Toutes les données utilisées sont anonymes, que ce soit pour la construction du système de recommandation ou bien pour ce site web qui sert de simulation pour tester le fonctionnement du moteur de recommandation </p>
+          <a class="btn btn-primary mt-2" href="/">Revenir en Accueil</a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <div class="row">
+                <div class="col">
+                    <img class="img-fluid rounded" src="{% static 'img/cs.png' %}" alt="CentraleSupélec" >
+                </div>
+                <div class="col">
+                    <img class="img-fluid rounded" src="{% static 'img/deloitte.png' %}" alt="Deloitte" >
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  {% endblock %}

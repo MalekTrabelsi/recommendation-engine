@@ -1,0 +1,68 @@
+
+
+{% extends 'main/header.html' %}
+
+  {% block content %}
+    <!--Apps-->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6 pb-4">
+                <h1 class="font-weight-bold">List of Apps</h1>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group">
+                  <div class="form-outline">
+                      <form method="get" action="" class="form form-inline">
+                        <button type="submit" class="btn btn-primary btn-sm" style="float: right;"> Recherche </button>
+                        <input type="text" name="q" placeholder="Recherche"  style="float: left;">
+                      </form>
+                  </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="th-sm">Name
+                </th>
+                <th class="th-sm">Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if searches != None %}
+            {% for p in searches %}
+                    <tr>
+                        <td>{{ p.app_name }}</td>
+                        <td>{{ p.app_description }}</td>
+                    </tr>
+            {% endfor %}
+        {% else %}
+            {% for p in apps %}
+                <tr>
+                    <td>{{ p.app_name }}</td>
+                    <td>{{ p.app_description }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th-sm">Name
+                </th>
+                <th class="th-sm">Description
+                </th>
+            </tr>
+        </tfoot>
+        </table>
+    </div>
+    <hr>
+    <br>
+    </div>
+
+  {% endblock %}
