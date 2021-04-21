@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>Custom Recommendations</title>
+	<meta charset="utf-8">
+</head>
+
+<style>
+	.column {float: left; width: 33.33%;}
+	.row:after {content: ""; display: table; clear: both;}
+</style>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+	<h2 style="text-align:center; margin-bottom:40px; background-color:#DCDCDC; padding:20px; border:2px solid black;">Please fill in the Forms Below to Get Custom Mobile App Recommendations</h2>
+
+	<div class="row">
+		<div style="float: left; width: 30%;" class="column">
+
+			<div class="row" style="height:200px;">
+				<h4 style="text-align:center; margin-bottom:20px"><u>Select Your Top Categories</u></h4>
+
+				<form method="post" id="form-1">
+					{% csrf_token %}
+					<div style="justify-content:center; font-size:13px;">
+						<div style="width:100%;">
+							<ul>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Games"/><label>Games</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Arcade"/><label>Arcade</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Action"/><label>Action</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Sports"/><label>Sports</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Entertainment"/><label>Entertainment</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Simulation"/><label>Simulation</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Racing"/><label>Racing</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Family"/><label>Family</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Strategy"/><label>Strategy</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Adventure"/><label>Adventure</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Word"/><label>Word</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Trivia"/><label>Trivia</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Social Networking"/><label>Social Networking </label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Puzzle"/><label>Puzzle</label></li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="row">
+				<div style="text-align:center;">
+					<button type="submit" form="form-1" style="margin-top:20px;">Submit</button>
+				</div>
+
+				{% if categories_selected_bool %}
+				<p style="text-align:center; font-size:13px;">You selected: <b>{{categories_selected}}</b></p>
+
+				<table style="text-align:center; background-color:#d3d3d3; font-size:13px; border:1px solid black; border-collapse:collapse; margin:auto;">
+					<tr>
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">App</th>
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Categories</th>
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Score</th>
+					</tr>
+					
+					{% for k,v in top_category_apps.items %}
+						<tr>
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;"><a href="https://play.google.com/store/apps/details?id={{k}}">{{v.name}}</a></td>
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">{{v.categories}}</td>
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">{{v.score}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+
+				{% else %}
+				<p style="text-align:center; font-size:15px; color:red;"><i>Please Select One or More and Click "Submit" to Receive a Recommendation</i></p>
+
+				{% endif %}
+			</div>
+
+		</div>
+
+		
+		<div style="float: left; width: 5%;" class="column">
+			<h3 style="text-align:center;">OR</h3>
+			<hr width="1" size="350">
+		</div>
+
+		
+		<div style="float: left; width: 30%;" class="column">
+			<div class="row" style="height:200px;">
+				<h4 style="text-align:center; margin-bottom:20px"><u>Select the Apps You've Already Used and Liked</u></h4>
+
+				<form method="post" id="form-2" style="margin-top:60px;">
+					{% csrf_token %}
+					{% for k,v in custom_random_apps.items %}
+						<li style="display:block; float:left; width: 50%; font-size:14px;">
+							<input type="radio" id="bundle_id_radio" name="random_apps_radio" value="{{k}}"/></input>
+							<label>
+								<a style="text-decoration:none; color:black;" href="https://play.google.com/store/apps/details?id={{k}}">{{v}}</a>
+							</label>
+						</li>
+					{% endfor %}
+				</form>
+			</div>
+
+			<div class="row">
+				<div style="text-align:center;">
+					<button type="submit" form="form-2" style="margin-top:20px;">Submit</button>
+				</div>
+
+				{% if bundleid_selected  %}
+				<p style="text-align:center; font-size:13px;">You selected: <a href="https://play.google.com/store/apps/details?id={{selected_app.bundleid}}">{{selected_app.name}}</a> ({{selected_app.categories}})</p>
+
+				<table style="text-align:center; background-color:#d3d3d3; font-size:13px; border:1px solid black; border-collapse:collapse; margin:auto;">
+					<tr>
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">App</th>
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Category</th>
+						<!-- <th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Description</th> -->
+						<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Score</th>
+					</tr>
+					
+					{% for k,v in content_based_recommendations.items %}
+						<tr>
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;"><a href="https://play.google.com/store/apps/details?id={{k}}">{{v.name}}</a></td>
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:9px;">{{v.genre}}</td>
+							<!-- <td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:8px;">{{v.description}}</td> -->
+							<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">{{v.score}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+
+				{% else %}
+				<p style="text-align:center; font-size:15px; color:red; margin-top:20px;"><i>Please Select an App and Click "Submit" to Receive a Recommendation</i></p>
+				{% endif %}
+
+			</div>
+		</div>
+
+		<div style="float: left; width: 5%;" class="column">
+			<h3 style="text-align:center;">OR</h3>
+			<hr width="1" size="350">
+		</div>
+
+		<div style="float: left; width: 30%;" class="column">
+			<div class="row" style="height:200px;">
+				<h4 style="text-align:center; margin-bottom:20px"><u>Please Fill up the Form Below</u></h4>
+
+				<form method="post" id="form-3">
+					{% csrf_token %}
+					<table style="margin:auto; text-align:center; margin-top:60px;">
+						<tr>
+							<td style="padding-right:30px; font-size:14px;">Age</td>
+							<td><input type="age" class="form-control" id="age_input_field" name="age_input_field" placeholder="Enter Your Age"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-right:30px; font-size:14px;" id="gender_input_field" name="gender_input_field">Gender<span style="font-size:10px;"> ⚠️</span></td>
+							<td>
+								<select>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-right:30px; font-size:14px;">Country</td>
+							<td>
+								{% csrf_token %}
+								<select id="country_input_field" name="country_input_field">
+									{% for c in all_countries %}
+										<option value="{{c}}">{{c}}</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+			<div class="row">
+				<div style="text-align:center;">
+					<button type="submit" form="form-3" style="margin-top:20px;">Submit</button>
+				</div>
+
+				{% if collaborative_selected  %}
+					{% if collaborative_recommendations|length > 0 %}
+						<br>
+						<table style="text-align:center; background-color:#d3d3d3; font-size:13px; border:1px solid black; border-collapse:collapse; margin:auto;">
+							<tr>
+								<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">App</th>
+								<th style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">Categories</th>
+							</tr>
+							
+							{% for k,v in collaborative_recommendations.items %}
+								<tr>
+									<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;"><a href="https://play.google.com/store/apps/details?id={{k}}">{{v.name}}</a></td>
+									<td style="padding-right:10px; padding-left:10px; border: 1px solid black; font-size:11px;">{{v.categories}}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% else %}
+					<p style="text-align:center; font-size:15px; color:red; margin-top:20px;"><i>There are no recommendations available for the current selections !</i></p>
+					{% endif %}
+
+				{% else %}
+				<p style="text-align:center; font-size:15px; color:red; margin-top:20px;"><i>Please Select an App and Click "Submit" to Receive a Recommendation</i></p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div style="left:25%; right:25%; text-align:center; width:100%; margin-top:50px;" class="column">
+		<button button style="background-color:#fed8b1; padding:10px; font-size:20px; width:20%; margin:auto;">
+			<a href="/combined" style="text-decoration:none;">
+				<b>Get Combined Recommendations >></b>
+			</a>
+		</button>
+	</div>
+
+</body>
+</html>

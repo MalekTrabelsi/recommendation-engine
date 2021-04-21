@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>Combined Recommendation</title>
+	<meta charset="utf-8">
+</head>
+
+<style>
+	.column {float: left; width: 33.33%;}
+	.row:after {content: ""; display: table; clear: both;}
+</style>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+	<h2 style="text-align:center; margin-bottom:40px; background-color:#DCDCDC; padding:20px; border:2px solid black;">Please fill in the Forms Below to Get Custom Mobile App Recommendations</h2>
+
+	<form method="post" id="form">
+		<div class="row">
+			<div style="float: left; width: 30%;" class="column">
+
+				<div class="row" style="height:150px;">
+					<h4 style="text-align:center; margin-bottom:20px"><u>Select Your Top Categories</u></h4>
+					
+					{% csrf_token %}
+					<div style="justify-content:center; font-size:13px;">
+						<div style="width:100%;">
+							<ul>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Games"/><label>Games</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Arcade"/><label>Arcade</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Action"/><label>Action</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Sports"/><label>Sports</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Entertainment"/><label>Entertainment</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Simulation"/><label>Simulation</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Racing"/><label>Racing</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Family"/><label>Family</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Strategy"/><label>Strategy</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Adventure"/><label>Adventure</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Word"/><label>Word</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Trivia"/><label>Trivia</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Social Networking"/><label>Social Networking</label></li>
+								<li style="display:block; float:left; width: 50%;"><input type="checkbox" name="selected_categories" value="Puzzle"/><label>Puzzle</label></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		
+			<div style="float: left; width: 5%;" class="column">
+				<h3 style="text-align:center;">AND</h3>
+				<hr width="1" size="150">
+			</div>
+
+			
+			<div style="float: left; width: 30%;" class="column">
+				<div class="row" style="height:150px;">
+					<h4 style="text-align:center; margin-bottom:20px"><u>Select the Apps You've Already Used and Liked</u></h4>
+
+					<div style="margin-top:60px;">
+						{% csrf_token %}
+						{% for k,v in custom_random_apps.items %}
+							<li style="display:block; float:left; width: 50%; font-size:14px;">
+								<input type="radio" id="bundle_id_radio" name="random_apps_radio" value="{{k}}"/></input>
+								<label>
+									<a style="text-decoration:none; color:black;" href="https://play.google.com/store/apps/details?id={{k}}">{{v}}</a>
+								</label>
+							</li>
+						{% endfor %}
+					</div>
+				</div>
+
+			</div>
+
+			<div style="float: left; width: 5%;" class="column">
+				<h3 style="text-align:center;">AND</h3>
+				<hr width="1" size="150">
+			</div>
+
+			<div style="float: left; width: 30%;" class="column">
+				<div class="row" style="height:200px;">
+					<h4 style="text-align:center; margin-bottom:20px"><u>Please Fill up the Form Below</u></h4>
+
+					{% csrf_token %}
+					<table style="margin:auto; text-align:center; margin-top:60px;">
+						<tr>
+							<td style="padding-right:30px; font-size:14px;">Age</td>
+							<td><input type="age" class="form-control" id="age_input_field" name="age_input_field" placeholder="Enter Your Age"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-right:30px; font-size:14px;" id="gender_input_field" name="gender_input_field">Gender<span style="font-size:10px;"> ⚠️</span></td>
+							<td>
+								<select>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-right:30px; font-size:14px;">Country</td>
+							<td>
+								{% csrf_token %}
+								<select id="country_input_field" name="country_input_field">
+									{% for c in all_countries %}
+										<option value="{{c}}">{{c}}</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="row">
+		<div style="text-align:center;">
+			<button type="submit" form="form" style="margin-top:20px;">Submit</button>
+		</div>
+	</div>
+
+	<div style="left:25%; right:25%; text-align:center; width:100%;" class="column">
+		
+		<div style="margin-top:20px;">
+			{% for k,v in combined_recommendations.items %}
+			
+			<div class="column" style="width:17.5%; height:100px; font-size:18px; padding-left:10px; padding-right:10px; padding-bottom:10px; margin-bottom:30px; border:2px solid black; margin-right:5px; margin-left:5px;">
+				<p style="margin:0px; margin-bottom:10px; font-size:25px; color:#8b0000;"><b>{{v.final}}</b></p>
+				<a href="https://play.google.com/store/apps/details?id={{k}}">{{v.name}}</a>
+				<br><br>
+				<i>{{v.categories}}</i>
+			</div>
+
+			{% endfor %}
+		</div>
+
+		<button button style="background-color:#fed8b1; padding:10px; font-size:20px; width:20%; margin:auto;">
+			<a href="/custom" style="text-decoration:none;">
+				<b><< Go Back to Individual Recommendations</b>
+			</a>
+		</button>
+	</div>
+
+</body>
+</html>
